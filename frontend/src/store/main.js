@@ -28,14 +28,13 @@ export const useStore = defineStore('main', {
         networks: [
             {id: 1, name: 'Ethereum', key: 'ether', color: '#627EEA', available: true},
             {id: 2, name: 'Mumbai testnet', key: 'polygon', color: '#8247E5', available: true},
-            // {id: 3, name: 'Boba', key: 'boba', color: '#8247E5', available: true},
+            {id: 3, name: 'Cronos', key: 'cronos', color: '#8247E5', available: true},
+            {id: 4, name: 'Gnosis/sokol', key: 'gnosis', color: '#8247E5', available: true},
             // {id: 3, name: 'Optimizm', key: 'optimizm', color: '#8247E5', available: true},
             // {id: 3, name: 'Skale', key: 'skale', color: '#8247E5', available: true},
-            // {id: 3, name: 'Gnosis/sokol', key: 'gnosis', color: '#8247E5', available: true},
         ],
         wallets: [
             {id: 1, name: 'MetaMask', key: 'Metamask', color: '#FFFFFF', available: true},
-            {id: 3, name: 'WalletConnect', key: 'walletconnect', color: '#D9ECFF', available: true},
             {id: 2, name: '1inch', key: '1inch', color: '#0E131D', available: true},
         ],
 

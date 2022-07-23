@@ -1,13 +1,4 @@
 const networks = {
-    rinkeby: {
-        name: "rinkeby",
-        chainId: 4,
-        transactionExplorer: "https://rinkeby.etherscan.io/tx/",
-        accountExplorer: "https://rinkeby.etherscan.io/address/",
-        blockExplorer: "https://rinkeby.etherscan.io/tx/",
-        marketplaceExplorer: (contractAddress, tokenID) => `https://testnets.opensea.io/assets/rinkeby/${contractAddress}/${tokenID}`,
-        gasLimit: 400000
-    },
     kovan_testnet: {
         name: "kovan_testnet",
         chainId: 42,
@@ -29,6 +20,15 @@ const networks = {
         chainId: 77,
         transactionExplorer: "https://blockscout.com/poa/sokol/tx/",
         accountExplorer: "https://blockscout.com/poa/sokol/address/",
+        // @todo find right explorer
+        marketplaceExplorer: (contractAddress, tokenID) => ``,
+        gasLimit: 400000
+    },
+    cronos_testnet: {
+        name: "cronos_testnet",
+        chainId: 338,
+        transactionExplorer: "https://cronos.crypto.org/explorer/testnet3/tx/",
+        accountExplorer: "https://cronos.crypto.org/explorer/testnet3/address/",
         // @todo find right explorer
         marketplaceExplorer: (contractAddress, tokenID) => ``,
         gasLimit: 400000
@@ -68,8 +68,9 @@ const settings = {
         // thingContract: '0xA95107620a198d7B141B32E42FF298f935A97585',
         thingContract: '0xfa44bb5e1b8c7be977cd5001008bc1caeee16e6a',
 
-        colorContract: '0x3b3c5c0e75163e89968300a077d45f69212d1beb',
-        achievements: '0x104d6c9e710bec7558138a119e1d22d8ca477469',
+        // todo
+        colorContract: '0xa95107620a198d7b141b32e42ff298f935a97585',
+        achievements: '0x1AF0454bcc3944B2cc94BD2D95A5E8354A0d68aa',
 
         whiteListContract: '0x4a74ba982b0229fdb4c9e69930ad9bb4a8bf9810',
     },
@@ -81,10 +82,23 @@ const settings = {
         // thingContract: '0xA95107620a198d7B141B32E42FF298f935A97585',
         thingContract: '0xeaE16eB54D9A2fd0a76BBD879539C2EC038cE2d1',
 
-        colorContract: '0x610d1f5149031185b264245d340108c15a1a01dc',
-        achievements: '0xfd13917ad315757645198d73c94def7ce007aafb',
+        colorContract: '0x48e24d6a6bbaacf6256e7948c9e16601a4f521b8',
+        achievements: '0x8c35ebf867323af8246953e99be8a4d5709a19a0',
 
         whiteListContract: '0x3b3c5c0e75163e89968300a077d45f69212d1beb',
+    },
+    cronos_testnet: {
+        api: null,
+        store: 'https://testnets.opensea.io',
+        blockchain: 'ETHEREUM',
+        characterContract: '0x55181Ea172ED9205252D559D782bA18488461303',
+        // thingContract: '0xA95107620a198d7B141B32E42FF298f935A97585',
+        thingContract: '0xd4B754464c4C0Ea996C468A7e2B7E41Cc9494E40',
+
+        colorContract: '0x458d5e59BA0590AfDFE1A55226Bd751C7a87477a',
+        achievements: '0x2F0689f3bCEF57BeD577310e1c4f1275BE15394a',
+
+        whiteListContract: '0x91b3Bcb5cb609CF307cb365124753a6Fb3bcC58A',
     },
 }
 

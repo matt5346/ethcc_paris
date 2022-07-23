@@ -33,6 +33,15 @@ const networks = {
         marketplaceExplorer: (contractAddress, tokenID) => ``,
         gasLimit: 400000
     },
+    neon_devnet: {
+        name: "neon_devnet",
+        chainId: 245022926,
+        transactionExplorer: "https://neonscan.org/tx/",
+        accountExplorer: "https://neonscan.org/address/",
+        // @todo find right explorer
+        marketplaceExplorer: (contractAddress, tokenID) => ``,
+        gasLimit: 400000
+    },
     // polygon_mainnet: {
     //     name: "polygon_mainnet",
     //     chainId: 137,
@@ -99,6 +108,19 @@ const settings = {
         achievements: '0x2F0689f3bCEF57BeD577310e1c4f1275BE15394a',
 
         whiteListContract: '0x91b3Bcb5cb609CF307cb365124753a6Fb3bcC58A',
+    },
+    neon_devnet: {
+        api: null,
+        store: 'https://testnets.opensea.io',
+        blockchain: 'ETHEREUM',
+        characterContract: '0x55181ea172ed9205252d559d782ba18488461303',
+        // thingContract: '0xA95107620a198d7B141B32E42FF298f935A97585',
+        thingContract: '0xd4B754464c4C0Ea996C468A7e2B7E41Cc9494E40',
+
+        colorContract: '0x2F0689f3bCEF57BeD577310e1c4f1275BE15394a',
+        achievements: '0x91b3Bcb5cb609CF307cb365124753a6Fb3bcC58A',
+
+        whiteListContract: '0xdD3610C4c9638d44329c10E23c835754f36D862d',
     },
 }
 

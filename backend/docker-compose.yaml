@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  donft_backend:
+    image: "donft_backend:latest"
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      - PINATA_JWT_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJhNjc0YmQ2Mi01NmRhLTRlYWQtOGJiNy1hZDdiNDJlOTBmMzciLCJlbWFpbCI6ImFyc3BlY2hlbkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6IkZSQTEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlfSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiMTI2NmMyYWYxYjAzOTdmNGM0YzEiLCJzY29wZWRLZXlTZWNyZXQiOiJmOTNjOGNlMzdhMzc1MDY4ZDEzYTE0OGEyZDYxY2E0YmJjYWRjZDczMTA3Y2I1MjJjNDY2MWMwNGE2ZjIzZTQ2IiwiaWF0IjoxNjUwMDE5MTAwfQ.W6M-PhKXXHiVmkKLXyyV5Lj-krj2kUsPBX-x_n2ObJY
+      - IPFS_API_TIMEOUT=30

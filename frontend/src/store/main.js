@@ -30,6 +30,7 @@ export const useStore = defineStore('main', {
             {id: 2, name: 'Mumbai testnet', key: 'polygon', color: '#8247E5', available: true},
             {id: 3, name: 'Cronos', key: 'cronos', color: '#8247E5', available: true},
             {id: 4, name: 'Gnosis/sokol', key: 'gnosis', color: '#8247E5', available: true},
+            {id: 4, name: 'NEON', key: 'neon', color: '#8247E5', available: true},
             // {id: 3, name: 'Optimizm', key: 'optimizm', color: '#8247E5', available: true},
             // {id: 3, name: 'Skale', key: 'skale', color: '#8247E5', available: true},
         ],

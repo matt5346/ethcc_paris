@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Gallery from '../views/Gallery.vue'
 import TokenDetail from '../views/TokenDetail.vue'
+import Admin from '../views/Admin.vue'
 import AppConnector from "@/crypto/AppConnector";
 import {ConnectionStore} from "@/crypto/helpers";
 
@@ -30,6 +31,11 @@ const routes = [
     name: 'TokenDetail',
     component: TokenDetail
   },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: Admin,
+  },
 ]
 
 const router = createRouter({
@@ -46,16 +52,16 @@ router.beforeEach(async (to, from) => {
     }
   }
 
-  if(to.meta.requiresAdmin){
-    try{
-      const {connector} = await AppConnector.init()
-      await connector.isUserConnected()
-      return ConnectionStore.isAdmin() && true || notAdminRedirectObject
-    }
-    catch (e) {
-      return notAdminRedirectObject
-    }
-  }
+  // if(to.meta.requiresAdmin){
+  //   try{
+  //     const {connector} = await AppConnector.init()
+  //     await connector.isUserConnected()
+  //     return ConnectionStore.isAdmin() && true || notAdminRedirectObject
+  //   }
+  //   catch (e) {
+  //     return notAdminRedirectObject
+  //   }
+  // }
 
   return true
 })

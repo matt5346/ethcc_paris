@@ -98,7 +98,7 @@
 
       try{
           isConnecting.value = true
-          const selected = (selectedWallet.value === '1inch')? null : selectedWallet.value
+          const selected = (selectedWallet.value === '1inch')? 'walletconnect' : selectedWallet.value
           await (await AppConnector.init(ConnectorTypes.RARIBLE)).connect(selected)
       }
       catch (e) {

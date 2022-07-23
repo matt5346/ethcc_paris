@@ -21,7 +21,10 @@ export function useWalletConnection(){
         return [...networkOptions.value].map(w => ({...w})).map((networkItem) => {
             let available = false
             if(networkItem.available){
-                available = true
+                if(wallet.value === 'ledger'){
+                    if(networkItem.key !== 'near' && networkItem.key !== 'evm') available = true
+                }
+                else available = true
             }
             networkItem.available = available
             return networkItem
@@ -33,7 +36,7 @@ export function useWalletConnection(){
             let available = false
             if(wallet.available){
                 if(network.value === 'evm'){
-                    available = true
+                    if(wallet.key !== 'ledger') available = true
                 }
                 else available = network.value !== 'near';
             }
@@ -46,7 +49,7 @@ export function useWalletConnection(){
 
     const submitAvailable = computed(() => {
         if(!network.value) return
-        if(network.value) return wallet.value
+        if(network.value !== 'near') return wallet.value
         else return !wallet.value
     })
 

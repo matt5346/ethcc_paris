@@ -12,7 +12,8 @@
       <ViewInJSON v-if="isJSON" :list="collections"/>
       <template v-else>
         <ContractElement
-          v-for="collection in collections"
+          v-for="(collection, key) in collections"
+          :key="key"
           :contract="collection"
           :byAvailable="true"
           @chooseToken="chooseToken"

@@ -24,6 +24,15 @@ const networks = {
         marketplaceExplorer: (contractAddress, tokenID) => `https://testnets.opensea.io/assets/mumbai/${contractAddress}/${tokenID}`,
         gasLimit: 400000
     },
+    sokol_testnet: {
+        name: "sokol_testnet",
+        chainId: 77,
+        transactionExplorer: "https://blockscout.com/poa/sokol/tx/",
+        accountExplorer: "https://blockscout.com/poa/sokol/address/",
+        // @todo find right explorer
+        marketplaceExplorer: (contractAddress, tokenID) => ``,
+        gasLimit: 400000
+    },
     // polygon_mainnet: {
     //     name: "polygon_mainnet",
     //     chainId: 137,
@@ -53,29 +62,29 @@ const settings = {
     // },
     maticmum: {
         api: 'https://api-staging.rarible.org/v0.1',
-        bundleContract: '0x4f660dC8Ec8B9092A2B892655325Fdf69042EEaC',
-        effectsContract: '0x10223Fb767F93e7102308D753dCa71F0A432b290',
-        testContract: '0x5494DD787186a6FBC611AcFaC1544CBBc8DF0154',
         store: 'https://testnets.opensea.io',
         blockchain: 'POLYGON',
-        adminAddress: '0xD25A41039DEfD7c7F0fBF6Db3D1Df60b232c6067',
-        whiteListContract: '0x00'
+        characterContract: '0x610d1f5149031185b264245d340108c15a1a01dc',
+        // thingContract: '0xA95107620a198d7B141B32E42FF298f935A97585',
+        thingContract: '0xfa44bb5e1b8c7be977cd5001008bc1caeee16e6a',
+
+        colorContract: '0x3b3c5c0e75163e89968300a077d45f69212d1beb',
+        achievements: '0x104d6c9e710bec7558138a119e1d22d8ca477469',
+
+        whiteListContract: '0x4a74ba982b0229fdb4c9e69930ad9bb4a8bf9810',
     },
     sokol_testnet: {
         api: null,
-        bundleContract: '0x5F2688F00b250E423C6b461115e9eff52f1D7434',
-        effectsContract: '0x5533E63796a5ddFC28d996daF9E69A6B7Ed9878B',
-        testContract: '0x369259905eE928ab1502DB060aBc5076480A86f5',
-        store: '',
+        store: 'https://testnets.opensea.io',
         blockchain: 'ETHEREUM',
-        adminAddress: '0xD25A41039DEfD7c7F0fBF6Db3D1Df60b232c6067',
+        characterContract: '0xB62C4Ac91b2cAA1D002350A69934c394d4DA2283',
+        // thingContract: '0xA95107620a198d7B141B32E42FF298f935A97585',
+        thingContract: '0xeaE16eB54D9A2fd0a76BBD879539C2EC038cE2d1',
 
-        characterContract: '0x2F0689f3bCEF57BeD577310e1c4f1275BE15394a',
-        thingContract: '0x91b3Bcb5cb609CF307cb365124753a6Fb3bcC58A',
-        colorContract: '0x55181Ea172ED9205252D559D782bA18488461303',
-        achievements: '0xd4B754464c4C0Ea996C468A7e2B7E41Cc9494E40',
+        colorContract: '0x610d1f5149031185b264245d340108c15a1a01dc',
+        achievements: '0xfd13917ad315757645198d73c94def7ce007aafb',
 
-        whiteListContract: '0x458d5e59BA0590AfDFE1A55226Bd751C7a87477a',
+        whiteListContract: '0x3b3c5c0e75163e89968300a077d45f69212d1beb',
     },
 }
 

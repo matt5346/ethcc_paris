@@ -1,25 +1,63 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Gallery from '../views/Gallery.vue'
+import TokenDetail from '../views/TokenDetail.vue'
+import AppConnector from "@/crypto/AppConnector";
+import {ConnectionStore} from "@/crypto/helpers";
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    name: 'Characters',
+    component: Gallery
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    path: '/things',
+    name: 'Things',
+    component: Gallery
+  },
+  {
+    path: '/colors',
+    name: 'Colors',
+    component: Gallery
+  },
+  {
+    path: '/achievements',
+    name: 'Achievements',
+    component: Gallery
+  },
+  {
+    path: '/asset/:contractAddress/:tokenID',
+    name: 'TokenDetail',
+    component: TokenDetail
+  },
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach(async (to, from) => {
+
+  const notAdminRedirectObject = {
+    name: 'Characters',
+    query: {
+      admin_role_required: true,
+    }
+  }
+
+  if(to.meta.requiresAdmin){
+    try{
+      const {connector} = await AppConnector.init()
+      await connector.isUserConnected()
+      return ConnectionStore.isAdmin() && true || notAdminRedirectObject
+    }
+    catch (e) {
+      return notAdminRedirectObject
+    }
+  }
+
+  return true
 })
 
 export default router

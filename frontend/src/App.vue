@@ -1,30 +1,63 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div v-if="isAppReady">
+    <router-view/>
+
+    <ManageContracts/>
+    <ChooseWalletModal/>
+    <DeployContractModal/>
+    <FindTokenModal/>
+    <AddToWhiteList/>
+
+    <TransactionViewModal/>
+
+    <ConfirmModal/>
+    <AlertModal/>
+  </div>
+  <LoaderElement v-else class="absolute with-bg"/>
+
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script setup>
+    import AlertModal from '@/components/UI/Alert'
+    import ConfirmModal from '@/components/UI/Confirm'
+    import ManageContracts from '@/components/modals/contractManager/Modal'
+    import ChooseWalletModal from '@/components/modals/chooseWallet/Modal'
+    import LoaderElement from '@/components/UI/Loader'
+    import WalletConnectQRModal from '@/components/modals/walletConnectQR/Modal'
+    import DeployContractModal from '@/components/modals/deployContract/Modal'
+    import TransactionViewModal from '@/components/modals/TransactionView'
+    import FindTokenModal from '@/components/modals/FindToken'
+    import AddToWhiteList from '@/components/modals/AddToWhiteList'
 
-nav {
-  padding: 30px;
+    import AppConnector from "@/crypto/AppConnector";
+    import {useStore} from "@/store/main";
+    import {storeToRefs} from "pinia";
+    import {onMounted} from "vue";
+    const store = useStore()
+    const {
+        isAppReady
+    } = storeToRefs(store);
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+    onMounted(async () => {
+        try{
+            await AppConnector.init()
+        }
+        catch (e){
+            console.log('user not connected', e);
+        }
+        finally {
+            store.setAppReady()
+        }
+    })
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+    // import {TokensABI} from '@/crypto/helpers'
+    // console.log(TokensABI);
+
+    // import CookiesModal from '@/components/LandingPage/CookiesModal'
+    // import WalletConnectQRModal from '@/components/LandingPage/WalletConnectQRModal.vue'
+    // import NotSupportedNetworkModal from '@/components/LandingPage/NotSupportedNetworkModal.vue'
+    // import Alert from '@/components/UI/Alert.vue'
+    // import Confirm from '@/components/UI/Confirm.vue'
+    // import TrnView from '@/components/UI/TrnView.vue'
+    // import alert from '@/utils/alert'
+</script>

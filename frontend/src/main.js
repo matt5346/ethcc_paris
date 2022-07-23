@@ -1,6 +1,14 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
+import { createPinia } from 'pinia'
 
-createApp(App).use(store).use(router).mount('#app')
+import "jsoneditor/dist/jsoneditor.min.css"
+import './assets/styles/index.scss'
+
+const pinia = createPinia()
+
+createApp(App)
+    .use(router)
+    .use(pinia)
+    .mount('#app')

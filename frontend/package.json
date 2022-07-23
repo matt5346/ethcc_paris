@@ -1,53 +1,40 @@
 {
-  "name": "hello-world",
+  "name": "new_york",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "serve": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build"
   },
   "dependencies": {
-    "core-js": "^3.8.3",
-    "vue": "^3.2.13",
-    "vue-router": "^4.0.3",
-    "vuex": "^4.0.0"
+    "@ledgerhq/hw-app-eth": "^6.29.0",
+    "@ledgerhq/hw-transport-webhid": "^6.27.1",
+    "@rarible/connector": "^0.9.11-beta.2",
+    "@rarible/connector-helper": "^0.9.11-beta.2",
+    "@rarible/connector-walletconnect": "^0.9.11-beta.2",
+    "axios": "^0.27.2",
+    "copy-to-clipboard": "^3.3.1",
+    "core-js": "^3.6.5",
+    "ethers": "^5.6.9",
+    "jsoneditor": "^9.9.0",
+    "pinia": "^2.0.14",
+    "qrcode.vue": "^3.3.3",
+    "tslib": "^2.4.0",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0-0",
+    "web3": "^1.7.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/eslint-parser": "^7.12.16",
-    "@vue/cli-plugin-babel": "~5.0.0",
-    "@vue/cli-plugin-eslint": "~5.0.0",
-    "@vue/cli-plugin-router": "~5.0.0",
-    "@vue/cli-plugin-vuex": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
-    "@vue/eslint-config-standard": "^6.1.0",
-    "eslint": "^7.32.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-vue": "^8.0.3",
-    "sass": "^1.32.7",
-    "sass-loader": "^12.0.0"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "@vue/standard"
-    ],
-    "parserOptions": {
-      "parser": "@babel/eslint-parser"
-    },
-    "rules": {}
+    "@vue/cli-plugin-babel": "~4.5.15",
+    "@vue/cli-plugin-router": "~4.5.15",
+    "@vue/cli-service": "~4.5.15",
+    "@vue/compiler-sfc": "^3.0.0",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2"
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
-    "not dead",
-    "not ie 11"
+    "not dead"
   ]
 }

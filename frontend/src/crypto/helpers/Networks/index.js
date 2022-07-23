@@ -40,7 +40,6 @@ const networks = {
         accountExplorer: "https://neonscan.org/address/",
         // @todo find right explorer
         marketplaceExplorer: (contractAddress, tokenID) => ``,
-        gasLimit: 400000
     },
     // polygon_mainnet: {
     //     name: "polygon_mainnet",

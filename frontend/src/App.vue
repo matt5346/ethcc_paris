@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isAppReady">
+  <template v-if="isAppReady">
     <router-view/>
 
     <ManageContracts/>
@@ -12,9 +12,10 @@
 
     <ConfirmModal/>
     <AlertModal/>
-  </div>
+  </template>
   <LoaderElement v-else class="absolute with-bg"/>
 
+  <WalletConnectQRModal/>
 </template>
 
 <script setup>

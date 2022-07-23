@@ -27,6 +27,7 @@ export const useStore = defineStore('main', {
 
         networks: [
             {id: 1, name: 'Ethereum', key: 'ether', color: '#627EEA', available: true},
+            {id: 2, name: 'Polygon', key: 'polygon', color: '#8247E5', available: true},
         ],
         wallets: [
             {id: 1, name: 'MetaMask', key: 'Metamask', color: '#FFFFFF', available: true},

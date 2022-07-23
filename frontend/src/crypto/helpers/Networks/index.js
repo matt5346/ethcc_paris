@@ -16,14 +16,22 @@ const networks = {
         marketplaceExplorer: (contractAddress, tokenID) => `https://opensea.io/assets/ethereum/${contractAddress}/${tokenID}`,
         gasLimit: 400000
     },
-    polygon_mainnet: {
-        name: "polygon_mainnet",
-        chainId: 137,
-        transactionExplorer: "https://polygonscan.com/tx/",
-        accountExplorer: "https://polygonscan.com/address/",
-        marketplaceExplorer: (contractAddress, tokenID) => `https://opensea.io/assets/matic/${contractAddress}/${tokenID}`,
+    maticmum: {
+        name: "maticmum",
+        chainId: 80001,
+        transactionExplorer: "https://mumbai.polygonscan.com/tx/",
+        accountExplorer: "https://mumbai.polygonscan.com/address/",
+        marketplaceExplorer: (contractAddress, tokenID) => `https://testnets.opensea.io/assets/mumbai/${contractAddress}/${tokenID}`,
         gasLimit: 400000
-    }
+    },
+    // polygon_mainnet: {
+    //     name: "polygon_mainnet",
+    //     chainId: 137,
+    //     transactionExplorer: "https://polygonscan.com/tx/",
+    //     accountExplorer: "https://polygonscan.com/address/",
+    //     marketplaceExplorer: (contractAddress, tokenID) => `https://opensea.io/assets/matic/${contractAddress}/${tokenID}`,
+    //     gasLimit: 400000
+    // }
 }
 
 const settings = {
@@ -35,13 +43,23 @@ const settings = {
         tokenAddress: '0xc2569dd7d0fd715B054fBf16E75B001E5c0C1115',
         limitOrderAddress: '0x94Bc2a1C732BcAd7343B25af48385Fe76E08734f'
     },
-    polygon_mainnet: {
-        api: 'https://api.rarible.org/v0.1',
+    // polygon_mainnet: {
+    //     api: 'https://api.rarible.org/v0.1',
+    //     blockchain: 'POLYGON',
+    //     adminAddress: '0xD25A41039DEfD7c7F0fBF6Db3D1Df60b232c6067',
+    //     //place1: address of ERC20 smart contract
+    //     tokenAddress: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
+    //     limitOrderAddress: '0xb707d89D29c189421163515c59E42147371D6857'
+    // },
+    maticmum: {
+        api: 'https://api-staging.rarible.org/v0.1',
+        bundleContract: '0x4f660dC8Ec8B9092A2B892655325Fdf69042EEaC',
+        effectsContract: '0x10223Fb767F93e7102308D753dCa71F0A432b290',
+        testContract: '0x5494DD787186a6FBC611AcFaC1544CBBc8DF0154',
+        store: 'https://testnets.opensea.io',
         blockchain: 'POLYGON',
         adminAddress: '0xD25A41039DEfD7c7F0fBF6Db3D1Df60b232c6067',
-        //place1: address of ERC20 smart contract
-        tokenAddress: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
-        limitOrderAddress: '0xb707d89D29c189421163515c59E42147371D6857'
+        whiteListContract: '0x00'
     },
     sokol_testnet: {
         api: null,

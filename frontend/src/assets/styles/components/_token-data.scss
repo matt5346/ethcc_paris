@@ -21,3 +21,12 @@
     height: 100%
   }
 }
+
+.token-data__visual__copy {
+  display: flex;
+  align-items: center;
+
+  div {
+    margin-right: 10px;
+  }
+}

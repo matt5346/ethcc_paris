@@ -5,7 +5,11 @@
     </div>
     <div>
       <InfoJson v-if="isJSONMode" :structure="props.token.structure"/>
-      <InfoVisual v-else :props="props.token.fieldsForView"/>
+      <InfoVisual
+        v-else
+        :props="props.token.fieldsForView"
+        :token-id="token.id"
+      />
     </div>
   </div>
 </template>

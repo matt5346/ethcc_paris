@@ -120,13 +120,14 @@
     display: grid;
     grid-template-columns: 110px 110px 110px;
     gap: 10px;
+    overflow-x: hidden;
 
     & > div{
       position: relative;
     }
 
     & > div > div:first-child{
-      height: 100px;
+      height: 65px;
       background-size: contain !important;
     }
 

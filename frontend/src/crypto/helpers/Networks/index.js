@@ -1,9 +1,9 @@
 const networks = {
-    kovan_testnet: {
-        name: "kovan_testnet",
+    rinkeby_testnet: {
+        name: "rinkeby_testnet",
         chainId: 42,
-        transactionExplorer: "https://kovan.etherscan.io/tx",
-        accountExplorer: "https://kovan.etherscan.io/address/",
+        transactionExplorer: "https://rinkeby.etherscan.io/tx",
+        accountExplorer: "https://rinkeby.etherscan.io/address/",
         marketplaceExplorer: (contractAddress, tokenID) => `https://opensea.io/assets/ethereum/${contractAddress}/${tokenID}`,
         gasLimit: 400000
     },
@@ -52,31 +52,22 @@ const networks = {
 }
 
 const settings = {
-    kovan_testnet: {
+    rinkeby_testnet: {
         api: 'https://api.rarible.org/v0.1',
         blockchain: 'ETHEREUM',
-        adminAddress: '0xD25A41039DEfD7c7F0fBF6Db3D1Df60b232c6067',
-        //place1: address of ERC20 smart contract
-        tokenAddress: '0xc2569dd7d0fd715B054fBf16E75B001E5c0C1115',
-        limitOrderAddress: '0x94Bc2a1C732BcAd7343B25af48385Fe76E08734f'
+        characterContract: '0x5BA28E89175CDe8bBC4E8dbCB320048425cEC2D9',
+        thingContract: '0xF03Ed64EF414f9cA556191bC39a8dc4784d6294a',
+        colorContract: '0x95EdbeBBaD0f283fa9AA9DAaFf80FbaE867Fd142',
+        achievements: '0x58Acb66dd2aFFaF58673A3a7a3e470E811504967',
+
+        whiteListContract: '0xF4E6b0248cDF44bdd499349EFb2f6F588a9B45Df',
     },
-    // polygon_mainnet: {
-    //     api: 'https://api.rarible.org/v0.1',
-    //     blockchain: 'POLYGON',
-    //     adminAddress: '0xD25A41039DEfD7c7F0fBF6Db3D1Df60b232c6067',
-    //     //place1: address of ERC20 smart contract
-    //     tokenAddress: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
-    //     limitOrderAddress: '0xb707d89D29c189421163515c59E42147371D6857'
-    // },
     maticmum: {
         api: 'https://api-staging.rarible.org/v0.1',
         store: 'https://testnets.opensea.io',
         blockchain: 'POLYGON',
         characterContract: '0x610d1f5149031185b264245d340108c15a1a01dc',
-        // thingContract: '0xA95107620a198d7B141B32E42FF298f935A97585',
         thingContract: '0xfa44bb5e1b8c7be977cd5001008bc1caeee16e6a',
-
-        // todo
         colorContract: '0xa95107620a198d7b141b32e42ff298f935a97585',
         achievements: '0x1AF0454bcc3944B2cc94BD2D95A5E8354A0d68aa',
 

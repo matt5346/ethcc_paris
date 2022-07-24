@@ -1,7 +1,7 @@
 const networks = {
     rinkeby: {
         name: "rinkeby",
-        chainId: 42,
+        chainId: 4,
         transactionExplorer: "https://rinkeby.etherscan.io/tx",
         accountExplorer: "https://rinkeby.etherscan.io/address/",
         marketplaceExplorer: (contractAddress, tokenID) => `https://opensea.io/assets/ethereum/${contractAddress}/${tokenID}`,

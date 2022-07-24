@@ -1,6 +1,6 @@
 const networks = {
-    rinkeby_testnet: {
-        name: "rinkeby_testnet",
+    rinkeby: {
+        name: "rinkeby",
         chainId: 42,
         transactionExplorer: "https://rinkeby.etherscan.io/tx",
         accountExplorer: "https://rinkeby.etherscan.io/address/",
@@ -13,6 +13,14 @@ const networks = {
         transactionExplorer: "https://mumbai.polygonscan.com/tx/",
         accountExplorer: "https://mumbai.polygonscan.com/address/",
         marketplaceExplorer: (contractAddress, tokenID) => `https://testnets.opensea.io/assets/mumbai/${contractAddress}/${tokenID}`,
+        gasLimit: 400000
+    },
+    polygon_mainnet: {
+        name: "polygon_mainnet",
+        chainId: 137,
+        transactionExplorer: "https://polygonscan.com/tx/",
+        accountExplorer: "https://polygonscan.com/address/",
+        marketplaceExplorer: (contractAddress, tokenID) => `https://opensea.io/assets/matic/${contractAddress}/${tokenID}`,
         gasLimit: 400000
     },
     sokol_testnet: {
@@ -41,18 +49,10 @@ const networks = {
         // @todo find right explorer
         marketplaceExplorer: (contractAddress, tokenID) => ``,
     },
-    polygon_mainnet: {
-        name: "polygon_mainnet",
-        chainId: 137,
-        transactionExplorer: "https://polygonscan.com/tx/",
-        accountExplorer: "https://polygonscan.com/address/",
-        marketplaceExplorer: (contractAddress, tokenID) => `https://opensea.io/assets/matic/${contractAddress}/${tokenID}`,
-        gasLimit: 400000
-    }
 }
 
 const settings = {
-    rinkeby_testnet: {
+    rinkeby: {
         api: 'https://api.rarible.org/v0.1',
         blockchain: 'ETHEREUM',
         characterContract: '0x5BA28E89175CDe8bBC4E8dbCB320048425cEC2D9',

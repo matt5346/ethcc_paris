@@ -1,6 +1,5 @@
 <template>
   <div class="sale-box">
-    <h2>SALE</h2>
     <button class="btn red" @click="submitSale">Sell NFT</button>
   </div>
 </template>

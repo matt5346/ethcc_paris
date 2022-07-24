@@ -73,6 +73,11 @@
 
   const createOrder = async () => {
     try {
+      if (!form.takerAssetAddress || !form.takerAmount) {
+        alert('Please fill both fields')
+        return
+      }
+
       console.log(preview.value.token, 'TOKEN')
       const order = {
         ...form,

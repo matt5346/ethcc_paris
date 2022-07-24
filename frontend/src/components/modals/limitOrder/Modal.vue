@@ -4,29 +4,28 @@
     @close="close"
     v-if="isOpen"
   >
-    <template #title>Sell NFT</template>
+    <template #title>Mint Premium NFT</template>
     <template #default>
       <!--        <div class="form__title">Add new collection</div>-->
       <!--<div class="modal__sub-title">
         Loaded collections:
       </div>-->
-      <div class="form">
-        <div class="field required">
-          <div class="field__name">Choose for selling asset</div>
+      <template v-if="!haveEnough">
+        <div class="form">
+          <div class="field required">
+            <div class="field__name">Choose your asset</div>
 
-          <select class="input default" v-model="form.takerAssetAddress">
-            <option value="" disabled selected>Choose asset type</option>
-            <option v-for="item in assetsTypes" :key="item.id" :value="item.id" v-text="item.token"></option>
-          </select>
+            <select class="input default" v-model="form.makerAssetAddress">
+              <option value="" disabled selected>Choose asset type</option>
+              <option v-for="item in assetsTypes" :key="item.id" :value="item.id" v-text="item.token"></option>
+            </select>
+          </div>
         </div>
-        <div class="field required">
-          <div class="field__name">Amount</div>
-          <input v-model="form.takerAmount" type="text" class="input default" placeholder="Price of selling...">
+        <div class="modal__footer">
+          <span v-if="isDisabled" class="alert">Minimum price 10 USDc</span>
+          <button :disabled="isDisabled" class="btn" @click="createOrder">Submit</button>
         </div>
-      </div>
-      <div>
-        <button class="btn" @click="createOrder">Submit</button>
-      </div>
+      </template>
       <LoaderElement v-if="isProcess" class="absolute with-bg">Deploying...</LoaderElement>
     </template>
   </Modal>
@@ -40,9 +39,10 @@
   import AppConnector from "@/crypto/AppConnector";
   // import alert from "@/utils/alert";
   import {storeToRefs} from "pinia";
-  import {ref, reactive} from "vue";
+  import {ref, reactive, computed} from "vue";
   const store = useStore()
   const close = () => store.changeInchOrderOpen(false)
+  let haveEnough = ref(false)
 
   const assetsTypes = [
     {
@@ -52,12 +52,19 @@
     {
       id: '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063',
       token: 'DAI'
-    }
+    },
+    {
+      id: '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',
+      token: 'wMatic'
+    },
   ]
 
+  // todo make more
   const form = reactive({
-      takerAssetAddress: '',
-      takerAmount: '',
+      takerAssetAddress: '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',
+      takerAmount: '1',
+      makerAssetAddress: '',
+      makerAmount: '1',
   })
 
   const {
@@ -71,23 +78,24 @@
       isProcess.value = true;
   }
 
+  const isDisabled = computed(() => {
+    return form.takerAssetAddress ? false : true
+  })
+
   const createOrder = async () => {
     try {
-      if (!form.takerAssetAddress || !form.takerAmount) {
-        alert('Please fill both fields')
+      if (!form.takerAssetAddress) {
+        alert('Please fill all fields')
         return
       }
 
       console.log(preview.value.token, 'TOKEN')
       const order = {
         ...form,
-        makerAssetAddress: preview.value.token ? preview.value.token.contractAddress : null,
-        makerAmount: '1',
-        tokenId: preview.value.token ? preview.value.token.id : null,
         walletAddress: '0x40F2977836b416D1EB423a7a2F3A9892b69Cc40F',
       }
 
-      await AppConnector.connector.formHandler(order)
+      await AppConnector.connector.formHandler(order, preview.value)
     } catch(err) {
       console.log(err, 'create order')
     }

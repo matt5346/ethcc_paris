@@ -16,8 +16,8 @@
           <div
             v-for="option in networks"
             :key="option.key"
-            :class="{'selected': selectedNetwork === option.key, 'na': !option.available}"
-            @click="option.available? setNetwork(option.key) : null"
+            :class="{'selected': selectedNetwork === option.id, 'na': !option.available}"
+            @click="option.available? setNetwork(option.id) : null"
           >
             <div>
               <img

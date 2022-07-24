@@ -1,6 +1,6 @@
 <template>
   <div class="preview"
-       v-if="preview.token"
+       v-if="preview.token && preview.isOpen"
        :class="[preview.isOpen? 'active':'close']"
        @click="close"
   >

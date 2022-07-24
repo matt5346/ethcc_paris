@@ -62,14 +62,14 @@
   // todo make more
   const form = reactive({
       takerAssetAddress: '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',
-      takerAmount: '1',
+      takerAmount: '2',
       makerAssetAddress: '',
-      makerAmount: '1',
   })
 
   const {
       isInchOrderOpen: isOpen,
       preview,
+      connection
   } = storeToRefs(store);
 
   const isProcess = ref(false)
@@ -89,10 +89,10 @@
         return
       }
 
-      console.log(preview.value.token, 'TOKEN')
+      console.log(connection.value, 'VALUE')
       const order = {
         ...form,
-        walletAddress: '0x40F2977836b416D1EB423a7a2F3A9892b69Cc40F',
+        walletAddress: connection.value.userIdentity,
       }
 
       await AppConnector.connector.formHandler(order, preview.value)

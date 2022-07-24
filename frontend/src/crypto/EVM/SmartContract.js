@@ -184,8 +184,8 @@ class SmartContract {
         // })
 
         const swapParams = {
-            fromTokenAddress: orderData.makerAssetAddress, // 1INCH
-            toTokenAddress: orderData.takerAssetAddress, // DAI
+            fromTokenAddress: orderData.makerAssetAddress,
+            toTokenAddress: orderData.takerAssetAddress,
             amount: web3.utils.toWei(orderData.makerAmount, "ether" ),
             fromAddress: walletAddress,
             slippage: 1,
@@ -221,32 +221,6 @@ class SmartContract {
                     });
             }
 
-            async function signAndSendTransaction(transaction) {
-
-                const txHash = await provider.request({
-                    method: 'eth_sendTransaction',
-                    params: [transaction],
-                });
-
-                // const trnSend = await provider.sendTransaction({
-                //     from: walletAddress,
-                //     gasLimit: 3500000, // Set your gas limit
-                //     gasPrice: 34000000000, // Set your gas price
-                //     to: contractAddress,
-                //     data: callData,
-                // });
-
-                return await broadCastRawTransaction(rawTransaction);
-
-                // const trnSend = await provider.sendTransaction({
-                //     from: walletAddress,
-                //     gasLimit: 3500000, // Set your gas limit
-                //     gasPrice: 34000000000, // Set your gas price
-                //     to: contractAddress,
-                //     data: callData,
-                // });
-            }
-
             async function buildTxForApproveTradeWithRouter(tokenAddress, amount) {
                 const url = apiRequestUrl(
                     '/approve/transaction',
@@ -271,9 +245,8 @@ class SmartContract {
             console.log('Transaction for approve: ', transactionForSign);
 
             // Send a transaction and get its hash
-            const approveTxHash = await signAndSendTransaction(transactionForSign);
+            const approveTxHash = await provider.provider.send('eth_sendTransaction', [{...transactionForSign, gasPrice: '600000000', gas: '350000', from: walletAddress}]);
 
-            console.log('Approve tx hash: ', approveTxHash);
         }
 
         console.log('Allowance: ', allowance);
@@ -283,52 +256,16 @@ class SmartContract {
         const connector = new Web3ProviderConnector(web3);
         console.log(connector, '1')
 
-        // const limitOrderBuilder = new LimitOrderBuilder(    
-        //     contractAddress,
-        //     chainId,
-        //     connector
-        // );
-        // console.log(limitOrderBuilder, '3 limitOrderBuilder')
-        // const limitOrderProtocolFacade = new LimitOrderProtocolFacade(    
-        //     contractAddress,    
-        //     connector
-        // );
-        // console.log(limitOrderProtocolFacade, '3 limitOrderProtocolFacade')
-        // // Create a limit order and it's signature
-        // const limitOrder = limitOrderBuilder.buildLimitOrder({    
-        //     makerAssetAddress: orderData.makerAssetAddress,    
-        //     takerAssetAddress: orderData.takerAssetAddress,    
-        //     makerAddress: walletAddress,
-        //     makerAmount: web3.utils.toWei(orderData.makerAmount, "ether" ),  
-        //     takerAmount: web3.utils.toWei(orderData.takerAmount, "ether" ),   
-        //     predicate: '0x',
-        //     permit: '0x',    
-        //     interaction: '0x',
-        // });
-        // console.log(limitOrder, '4')
+        async function buildTxForSwap(swapParams) {
+            const url = apiRequestUrl('/swap', swapParams);
         
-        // const limitOrderTypedData = limitOrderBuilder.buildLimitOrderTypedData(limitOrder);
-        // console.log(limitOrderTypedData, '5')
-        // const limitOrderSignature = await limitOrderBuilder.buildOrderSignature(walletAddress, limitOrderTypedData);
-        // console.log(limitOrderSignature, '6')
+            return fetch(url).then(res => res.json()).then(res => res.tx);
+        }
 
-        // const fillTakerAmount = Number(orderData.takerAmount) + 100
-        // console.log(web3.utils.toWei(orderData.makerAmount, "ether" ), 'web3.utils.toWei(orderData.makerAmount, "ether" ) 9')
-        // console.log(web3.utils.toWei(fillTakerAmount.toString(), "ether" ), 'web3.utils.toWei(fillTakerAmount, "ether" ) 9')
-
-        // const callData = limitOrderProtocolFacade.fillLimitOrder(
-        //     limitOrder,
-        //     limitOrderSignature,
-        //     web3.utils.toWei(orderData.makerAmount, "ether" ),
-        //     '0',
-        //     web3.utils.toWei(fillTakerAmount.toString(), "ether" )
-        // );
-
-        // console.log(callData, 'callData 9')
-        // console.log(provider, 'provider 9')
-        
-        // // gas price 34000000000 === 34 maxFEE, its average
-        // const trnSend = await provider.sendTransaction({
+        const swapTransaction = await buildTxForSwap(swapParams);
+        console.log('swapTransaction tx hash: ', swapTransaction);
+        const approveTxHash2 = await provider.provider.send('eth_sendTransaction', [{...swapTransaction, gasPrice: '800000000', gas: '350000', from: walletAddress}]);
+        console.log('approveTxHash2 tx hash: ', approveTxHash2);
         //     from: walletAddress,
         //     gasLimit: 3500000, // Set your gas limit
         //     gasPrice: 34000000000, // Set your gas price

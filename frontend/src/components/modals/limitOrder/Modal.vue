@@ -4,42 +4,28 @@
     @close="close"
     v-if="isOpen"
   >
-    <template #title>Mint</template>
+    <template #title>Mint Premium NFT</template>
     <template #default>
       <!--        <div class="form__title">Add new collection</div>-->
       <!--<div class="modal__sub-title">
         Loaded collections:
       </div>-->
-      <div class="form">
-        <div class="field required">
-          <div class="field__name">Choose for selling asset</div>
+      <template v-if="!haveEnough">
+        <div class="form">
+          <div class="field required">
+            <div class="field__name">Choose your asset</div>
 
-          <select class="input default" v-model="form.takerAssetAddress">
-            <option value="" disabled selected>Choose asset type</option>
-            <option v-for="item in assetsTypes" :key="item.id" :value="item.id" v-text="item.token"></option>
-          </select>
+            <select class="input default" v-model="form.takerAssetAddress">
+              <option value="" disabled selected>Choose asset type</option>
+              <option v-for="item in assetsTypes" :key="item.id" :value="item.id" v-text="item.token"></option>
+            </select>
+          </div>
         </div>
-        <div class="field required">
-          <div class="field__name">Taker amount</div>
-          <input v-model="form.takerAmount" type="text" class="input default" placeholder="Price of selling...">
+        <div class="modal__footer">
+          <span v-if="isDisabled" class="alert">Minimum price 10 USDc</span>
+          <button :disabled="isDisabled" class="btn" @click="createOrder">Submit</button>
         </div>
-        <div class="field required">
-          <div class="field__name">Choose for buying asset</div>
-
-          <select class="input default" v-model="form.makerAssetAddress">
-            <option value="" disabled selected>Choose asset type</option>
-            <option v-for="item in assetsTypes" :key="item.id" :value="item.id" v-text="item.token"></option>
-          </select>
-        </div>
-        <div class="field required">
-          <div class="field__name">Maker amount</div>
-          <input v-model="form.makerAmount" type="text" class="input default" placeholder="Price of selling...">
-        </div>
-      </div>
-      <div class="modal__footer">
-        <span v-if="isDisabled" class="alert">Minimum price 10 USDc</span>
-        <button :disabled="isDisabled" class="btn" @click="createOrder">Submit</button>
-      </div>
+      </template>
       <LoaderElement v-if="isProcess" class="absolute with-bg">Deploying...</LoaderElement>
     </template>
   </Modal>
@@ -56,6 +42,7 @@
   import {ref, reactive, computed} from "vue";
   const store = useStore()
   const close = () => store.changeInchOrderOpen(false)
+  let haveEnough = ref(false)
 
   const assetsTypes = [
     {
@@ -72,11 +59,12 @@
     },
   ]
 
+  // todo make more
   const form = reactive({
       takerAssetAddress: '',
-      takerAmount: '',
-      makerAssetAddress: '',
-      makerAmount: '',
+      takerAmount: '1',
+      makerAssetAddress: '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',
+      makerAmount: '1',
   })
 
   const {
@@ -91,12 +79,12 @@
   }
 
   const isDisabled = computed(() => {
-    return form.takerAmount > 0.9 ? false : true
+    return form.takerAssetAddress ? false : true
   })
 
   const createOrder = async () => {
     try {
-      if (!form.takerAssetAddress || !form.takerAmount && !form.makerAssetAddress || !form.makerAmount) {
+      if (!form.takerAssetAddress) {
         alert('Please fill all fields')
         return
       }

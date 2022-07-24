@@ -29,10 +29,10 @@ export const useStore = defineStore('main', {
         networks: [
             {id: 1, name: 'Ethereum', key: 'ether', color: '#627EEA', available: true},
             {id: 2, name: 'Mumbai testnet', key: 'polygon', color: '#8247E5', available: true},
-            {id: 2, name: 'Matic mainnet', key: 'polygon', color: '#8247E5', available: true},
+            {id: 22, name: 'Matic mainnet', key: 'polygon', color: '#8247E5', available: true},
             {id: 3, name: 'Cronos', key: 'cronos', color: '#8247E5', available: true},
             {id: 4, name: 'Gnosis/sokol', key: 'gnosis', color: '#8247E5', available: true},
-            {id: 4, name: 'NEON', key: 'neon', color: '#8247E5', available: true},
+            {id: 5, name: 'NEON', key: 'neon', color: '#8247E5', available: true},
             // {id: 3, name: 'Optimizm', key: 'optimizm', color: '#8247E5', available: true},
             // {id: 3, name: 'Skale', key: 'skale', color: '#8247E5', available: true},
         ],
@@ -141,114 +141,133 @@ export const useStore = defineStore('main', {
             [CollectionType.THINGS]: [
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/hair/1.png',
                     name: 'Hair 1',
                     cid: 'bafybeidhr5fhz2xwbgw3azjm5qvnvro4oxmx7jvnyvxadbyxbokt2ynvue/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/hair/2.png',
                     name: 'Hair 2',
                     cid: 'bafybeiaat5uuwlgoaj3dsxmwpu2w3wh7exjz7garojnbvlcw67jwz2n47e/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/hair/3.png',
                     name: 'Hair 3',
                     cid: 'bafybeib6se6atmpyc7zpy5xz2hizlnnrl5aupde7xenxluxkbldu6qxi4y/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/hair/4.png',
                     name: 'Hair 4',
                     cid: 'bafybeiclpmzde2hseubj4detk2mzno5z5dbow4zyuvt6uuyleodkuivwva/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/hair/5.png',
                     name: 'Hair 5',
                     cid: 'bafybeico4olv6iern6ukkyqoysaz4ibp5tijs3cej3o7ovkt7e2af2pvji/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/hair/6.png',
                     name: 'Hair 6',
                     cid: 'bafybeidyejgv3hjbc2ttld2nlj5sppzumcs53gu3ygxu4mtpfqmj4cwbse/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/hair/7.png',
                     name: 'Hair 7',
                     cid: 'bafybeiholriex36v7mbabh7lz6j3dnnh2n6lndhie4cxp72cesu6dshcqe/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/hair/8.png',
                     name: 'Hair 8',
                     cid: 'bafybeigv73glblqda5gmitlmfe3dniibsyb43qxqxkxyxspnxt2u5kfcie/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/hair/9.png',
                     name: 'Hair 9',
                     cid: 'bafybeigmoqwc5rfq2hi6i4xpaad6nrrecjdavnjytviekcihk66mkvbbfy/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/hair/10.png',
                     name: 'Hair 10',
                     cid: 'bafybeid6cylagkonmu7hitwp2qxtahwbgezr2632gjgpqfpgupmhnujkiq/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/glasses/1.png',
                     name: 'Glasses 1',
                     cid: 'bafybeicra5rzr46wrg7xsgcu6mu54ghigzzi52dawdv2wzuomkqsdiywee/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/glasses/2.png',
                     name: 'Glasses 2',
                     cid: 'bafybeibuhxel27d5764axen2g4nciwi24u2wqr2bq56xjcibycdzvtkymm/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/cheek/1.png',
                     name: 'Cheek 1',
                     cid: 'bafybeicmru32qiowb2o2xnyno35c5sp6p6ov5q56ib7fea2kb42zef34ra/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/bread/1.png',
                     name: 'Bread 1',
                     cid: 'bafybeif3ojjcsohv4y5br24vioaxyx2ys4ljwivhxdmliwjbbp3pmyxssa/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/bread/2.png',
                     name: 'Bread 2',
                     cid: 'bafybeierl56djn725qoag3bs7leqoyknlhn756ynodhl7zsooyactjd46i/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/bread/3.png',
                     name: 'Bread 3',
                     cid: 'bafybeib2ywmrilcerlcqwh734d6j5hxnmp6bccn4ja7ll24ugcrzkswppa/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/bread/4.png',
                     name: 'Bread 4',
                     cid: 'bafybeicvbzavb4chjxeq7iwfoaoniivuzsl5miikxmtz7ggztflvszzz6e/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/chain/1.png',
                     name: 'Chain 1',
                     cid: 'bafybeifajjzw4cte4szzqqw5s2frjnldq33znn24zjor47bnuilzphrqqy/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/chain/2.png',
                     name: 'Chain 2',
                     cid: 'bafybeid4ismx74rdqsj34akfdyfev6s52u2h4sgqxtdm3sszayvp4frpmu/file'
@@ -257,36 +276,42 @@ export const useStore = defineStore('main', {
             [CollectionType.COLORS]: [
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/colors/blue.png',
                     name: 'Space',
                     cid: 'bafybeihb3ccw3ochkhnxxxmur2uuozepq7x4hbbsstmgouszlfshmziz2e/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/colors/green.png',
                     name: 'Green forest',
                     cid: 'bafybeiefjqx7xztce2iovh324admvskek6asdtexqvu7whh7clh7w2cev4/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/colors/orange.png',
                     name: 'Orange',
                     cid: 'bafybeigvz7hlelunukeuvmhtkeplb7y55atxhjw5e73jnqz24w2xu4rhzq/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/colors/red.png',
                     name: 'Red',
                     cid: 'bafybeih3tgnhostmbczb5at34aoksngtg2ydwpwstxfsqfiz733wvck7k4/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/colors/rose.png',
                     name: 'Rose',
                     cid: 'bafybeifjscwbpt7lgtaekhvejr4zgtl4dbtj5qtapxrqjef46ein34hklm/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/colors/brown.png',
                     name: 'Brown',
                     cid: 'bafybeihbctp7vdkblywjr5bwbtsr2p6hrjacivmtty6hv4tkxlutopipwu/file'
@@ -295,6 +320,7 @@ export const useStore = defineStore('main', {
             [CollectionType.ACHIEVEMENTS]: [
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/achievements/01.jpg',
                     name: 'Achievement',
                     cid: 'bafybeiflnp64da53njqahnlnzkeqnw6p3rn76wzkqiysmnbyivw2jrtyea/file'

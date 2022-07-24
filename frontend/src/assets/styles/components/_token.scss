@@ -8,6 +8,10 @@
   cursor: pointer;
   border: 1px solid transparent;
 
+  &.premium {
+    border: 1px solid var(--link-color);
+  }
+
   &:hover{
     background: var(--token-bg_hover);
   }

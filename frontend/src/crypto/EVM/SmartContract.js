@@ -2,6 +2,8 @@ import { ethers, Contract } from "ethers";
 import {stringCompare} from "@/utils/string";
 import ledgerService from "@ledgerhq/hw-app-eth/lib/services/ledger";
 import {log} from "@/utils/AppLogger";
+import TrnView from "@/utils/TrnView";
+import AppConnector from "@/crypto/AppConnector";
 import {CollectionType} from "@/utils/collection";
 
 import Web3 from 'web3';
@@ -144,6 +146,18 @@ class SmartContract {
        //await this.makeLimitOrder(address, amount)
        try {
         await this.makeLimitOrder_matic(orderData)
+
+        try {
+            console.log('creating limit order 2')
+            const {transactionHash} = await AppConnector.connector.mintTestToken(props.token)
+            TrnView
+                .open({hash: transactionHash})
+                .onClose(async () => {
+                    await AppConnector.connector.updateContractTokensList([props.token.contractAddress])
+                })
+        } catch(err) {
+            console.log(err, 'mint error')
+        }
        } catch(err) {
         console.log(err, 'creating limit order error')
        }
@@ -158,45 +172,170 @@ class SmartContract {
         const walletAddress = orderData.walletAddress;
         const chainId = 137;
         console.log(contractAddress, orderData, 'createOrder')
+        console.log(provider, 'provider')
 
         const web3 = new Web3(provider.provider.provider);
 
-        // may be need usual 0x94Bc2a1C732BcAd7343B25af48385Fe76E08734f
         // now using main character contract
-        await this.approve('0xc806bbF2B77513A958f8aD55DBF1c53A4AfEA172', orderData.tokenId)
+        // await this.approveToken({
+        //     tokenAddress: orderData.makerAssetAddress,
+        //     limitOrderAddress: contractAddress,
+        //     amount: web3.utils.toWei('1000', "ether" ),
+        // })
+
+        const swapParams = {
+            fromTokenAddress: orderData.makerAssetAddress, // 1INCH
+            toTokenAddress: orderData.takerAssetAddress, // DAI
+            amount: web3.utils.toWei(orderData.makerAmount, "ether" ),
+            fromAddress: walletAddress,
+            slippage: 1,
+            disableEstimate: false,
+            allowPartialFill: false,
+        };
+
+        const broadcastApiUrl = 'https://tx-gateway.1inch.io/v1.1/' + chainId + '/broadcast';
+        const apiBaseUrl = 'https://api.1inch.io/v4.0/' + chainId;
+
+        function apiRequestUrl(methodName, queryParams) {
+            return apiBaseUrl + methodName + '?' + (new URLSearchParams(queryParams)).toString();
+        }
+
+        function checkAllowance(tokenAddress, walletAddress) {
+            return fetch(apiRequestUrl('/approve/allowance', {tokenAddress, walletAddress}))
+                .then(res => res.json())
+                .then(res => res.allowance);
+        }
+        
+        const allowance = await checkAllowance(swapParams.fromTokenAddress, walletAddress);
+
+        if (allowance === '0') {
+            async function broadCastRawTransaction(rawTransaction) {
+                return fetch(broadcastApiUrl, {
+                    method: 'post',
+                    body: JSON.stringify({rawTransaction}),
+                    headers: {'Content-Type': 'application/json'}
+                })
+                    .then(res => res.json())
+                    .then(res => {
+                        return res.transactionHash;
+                    });
+            }
+
+            async function signAndSendTransaction(transaction) {
+
+                const txHash = await provider.request({
+                    method: 'eth_sendTransaction',
+                    params: [transaction],
+                });
+
+                // const trnSend = await provider.sendTransaction({
+                //     from: walletAddress,
+                //     gasLimit: 3500000, // Set your gas limit
+                //     gasPrice: 34000000000, // Set your gas price
+                //     to: contractAddress,
+                //     data: callData,
+                // });
+
+                return await broadCastRawTransaction(rawTransaction);
+
+                // const trnSend = await provider.sendTransaction({
+                //     from: walletAddress,
+                //     gasLimit: 3500000, // Set your gas limit
+                //     gasPrice: 34000000000, // Set your gas price
+                //     to: contractAddress,
+                //     data: callData,
+                // });
+            }
+
+            async function buildTxForApproveTradeWithRouter(tokenAddress, amount) {
+                const url = apiRequestUrl(
+                    '/approve/transaction',
+                    amount ? {tokenAddress, amount} : {tokenAddress}
+                );
+
+                const transaction = await fetch(url).then(res => res.json());
+
+                const gasLimit = await web3.eth.estimateGas({
+                    ...transaction,
+                    from: walletAddress
+                });
+
+                return {
+                    ...transaction,
+                    gas: gasLimit
+                };
+            }
+
+            // First, let's build the body of the transaction
+            const transactionForSign = await buildTxForApproveTradeWithRouter(swapParams.fromTokenAddress);
+            console.log('Transaction for approve: ', transactionForSign);
+
+            // Send a transaction and get its hash
+            const approveTxHash = await signAndSendTransaction(transactionForSign);
+
+            console.log('Approve tx hash: ', approveTxHash);
+        }
+
+        console.log('Allowance: ', allowance);
+        
         console.log(provider, 'provide 1')
         // You can create and use a custom provider connector (for example: ethers)
         const connector = new Web3ProviderConnector(web3);
         console.log(connector, '1')
 
-        const limitOrderBuilder = new LimitOrderBuilder(    
-            contractAddress,
-            chainId,
-            connector
-        );
-        console.log(limitOrderBuilder, '3 limitOrderBuilder')
-        const limitOrderProtocolFacade = new LimitOrderProtocolFacade(    
-            contractAddress,    
-            connector
-        );
-        console.log(limitOrderProtocolFacade, '3 limitOrderProtocolFacade')
-        // Create a limit order and it's signature
-        const limitOrder = limitOrderBuilder.buildLimitOrder({    
-            makerAssetAddress: orderData.makerAssetAddress,    
-            takerAssetAddress: orderData.takerAssetAddress,    
-            makerAddress: walletAddress,
-            makerAmount: orderData.makerAmount,  
-            takerAmount: web3.utils.toWei(orderData.takerAmount, "ether" ),   
-            predicate: '0x',
-            permit: '0x',    
-            interaction: '0x',
-        });
-        console.log(limitOrder, '4')
+        // const limitOrderBuilder = new LimitOrderBuilder(    
+        //     contractAddress,
+        //     chainId,
+        //     connector
+        // );
+        // console.log(limitOrderBuilder, '3 limitOrderBuilder')
+        // const limitOrderProtocolFacade = new LimitOrderProtocolFacade(    
+        //     contractAddress,    
+        //     connector
+        // );
+        // console.log(limitOrderProtocolFacade, '3 limitOrderProtocolFacade')
+        // // Create a limit order and it's signature
+        // const limitOrder = limitOrderBuilder.buildLimitOrder({    
+        //     makerAssetAddress: orderData.makerAssetAddress,    
+        //     takerAssetAddress: orderData.takerAssetAddress,    
+        //     makerAddress: walletAddress,
+        //     makerAmount: web3.utils.toWei(orderData.makerAmount, "ether" ),  
+        //     takerAmount: web3.utils.toWei(orderData.takerAmount, "ether" ),   
+        //     predicate: '0x',
+        //     permit: '0x',    
+        //     interaction: '0x',
+        // });
+        // console.log(limitOrder, '4')
         
-        const limitOrderTypedData = limitOrderBuilder.buildLimitOrderTypedData(limitOrder);
-        console.log(limitOrderTypedData, '5')
-        const limitOrderSignature = await limitOrderBuilder.buildOrderSignature(walletAddress, limitOrderTypedData);
-        console.log(limitOrderSignature, '6')
+        // const limitOrderTypedData = limitOrderBuilder.buildLimitOrderTypedData(limitOrder);
+        // console.log(limitOrderTypedData, '5')
+        // const limitOrderSignature = await limitOrderBuilder.buildOrderSignature(walletAddress, limitOrderTypedData);
+        // console.log(limitOrderSignature, '6')
+
+        // const fillTakerAmount = Number(orderData.takerAmount) + 100
+        // console.log(web3.utils.toWei(orderData.makerAmount, "ether" ), 'web3.utils.toWei(orderData.makerAmount, "ether" ) 9')
+        // console.log(web3.utils.toWei(fillTakerAmount.toString(), "ether" ), 'web3.utils.toWei(fillTakerAmount, "ether" ) 9')
+
+        // const callData = limitOrderProtocolFacade.fillLimitOrder(
+        //     limitOrder,
+        //     limitOrderSignature,
+        //     web3.utils.toWei(orderData.makerAmount, "ether" ),
+        //     '0',
+        //     web3.utils.toWei(fillTakerAmount.toString(), "ether" )
+        // );
+
+        // console.log(callData, 'callData 9')
+        // console.log(provider, 'provider 9')
+        
+        // // gas price 34000000000 === 34 maxFEE, its average
+        // const trnSend = await provider.sendTransaction({
+        //     from: walletAddress,
+        //     gasLimit: 3500000, // Set your gas limit
+        //     gasPrice: 34000000000, // Set your gas price
+        //     to: contractAddress,
+        //     data: callData,
+        // });
+        // console.log(trnSend, 'trnSend 9')
     }
 
 
@@ -213,6 +352,30 @@ class SmartContract {
             ...tokenObject
         })
     }
+
+
+    async approveToken(orderData){
+        console.log(orderData, 'approve token!!')
+        let tokenAddress = orderData.tokenAddress
+        const limitOrderAddress = orderData.limitOrderAddress
+
+        let abi = TokensABI.erc20.ABI
+        let provide = ConnectionStore.getProvider();
+        const contract = new Contract(tokenAddress, abi, provide)
+
+        try{
+            console.log(orderData.amount)
+            const tx = await contract.approve(limitOrderAddress, orderData.amount)
+            console.log(tx, 'tx approve')
+            return await tx.wait()
+        }
+        catch (e){
+            console.log('mint error', e);
+            if(e.code === 4001) throw Error(ErrorList.USER_REJECTED_TRANSACTION)
+            throw Error(ErrorList.TRN_COMPLETE)
+        }
+    }
+
 
     /*
     * Return wrapped token identities
@@ -445,8 +608,11 @@ class SmartContract {
     }
 
     async approve(forAddress, tokenID){
+        console.log('111')
         const Contract = await this._getInstance()
+        console.log(Contract, 'contract')
         const approvedFor = await this.getApproved(tokenID)
+        console.log(approvedFor, 'approvedFor')
         if(approvedFor && stringCompare(approvedFor, forAddress)) return
         try{
             const tx = await Contract.approve(forAddress, tokenID)

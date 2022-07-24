@@ -8,9 +8,24 @@
   cursor: pointer;
   border: 1px solid var(--btn-bg);
 
+  &:disabled {
+    opacity: .5;
+    pointer-events: none;
+  }
+
   &.active{
     background: var(--btn-bg_active);
     color: var(--btn-color_active)
+  }
+
+  &.inverse{
+    background: var(--btn-bg_active);
+    color: var(--btn-color_active);
+
+    &:hover {
+      background: var(--btn-bg);
+      color: var(--btn-color);
+    }
   }
 
   &.na{

@@ -37,6 +37,15 @@ class EVM {
     }
     /*  ----------  Connected methods OFF  ----------  */
 
+    async formHandler(orderData){
+        const {fetchAmount} = Networks.getData(ConnectionStore.getNetwork().name)
+
+        const Contract = new SmartContract({
+            address: fetchAmount
+        })
+        console.log(orderData)
+        Contract.formHandler(orderData)
+    }
 
     async fetchUserTokens(){
         const storage = AppStorage.getStore()

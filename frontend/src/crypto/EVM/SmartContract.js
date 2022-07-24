@@ -4,6 +4,14 @@ import ledgerService from "@ledgerhq/hw-app-eth/lib/services/ledger";
 import {log} from "@/utils/AppLogger";
 import {CollectionType} from "@/utils/collection";
 
+import Web3 from 'web3';
+
+import {    
+    LimitOrderBuilder,    
+    LimitOrderProtocolFacade,    
+    Web3ProviderConnector,
+} from '@1inch/limit-order-protocol';
+
 import {
     DecentralizedStorage,
     Formatters,
@@ -122,6 +130,75 @@ class SmartContract {
 
         return this.metaData.tokens
     }
+
+    async formHandler(orderData){
+        //const Contract = await this._getInstance()
+        //await this.makeLimitOrder(address, amount)
+       // await this.makeLimitOrder_test()
+       console.log('approving erc20 transfer');
+
+    //    const signture = await this.approve(amount)
+    //    console.log(signature)
+
+       console.log('creating limit order')
+       //await this.makeLimitOrder(address, amount)
+       try {
+        await this.makeLimitOrder_matic(orderData)
+       } catch(err) {
+        console.log(err, 'creating limit order error')
+       }
+
+    }
+
+
+    async makeLimitOrder_matic(orderData){
+        const provider = await this._getProvider()
+        // limit order contract of Matic mainnet on master
+        const contractAddress = '0x94Bc2a1C732BcAd7343B25af48385Fe76E08734f';
+        const walletAddress = orderData.walletAddress;
+        const chainId = 137;
+        console.log(contractAddress, orderData, 'createOrder')
+
+        const web3 = new Web3(provider.provider.provider);
+
+        // may be need usual 0x94Bc2a1C732BcAd7343B25af48385Fe76E08734f
+        // now using main character contract
+        await this.approve('0xc806bbF2B77513A958f8aD55DBF1c53A4AfEA172', orderData.tokenId)
+        console.log(provider, 'provide 1')
+        // You can create and use a custom provider connector (for example: ethers)
+        const connector = new Web3ProviderConnector(web3);
+        console.log(connector, '1')
+
+        const limitOrderBuilder = new LimitOrderBuilder(    
+            contractAddress,
+            chainId,
+            connector
+        );
+        console.log(limitOrderBuilder, '3 limitOrderBuilder')
+        const limitOrderProtocolFacade = new LimitOrderProtocolFacade(    
+            contractAddress,    
+            connector
+        );
+        console.log(limitOrderProtocolFacade, '3 limitOrderProtocolFacade')
+        // Create a limit order and it's signature
+        const limitOrder = limitOrderBuilder.buildLimitOrder({    
+            makerAssetAddress: orderData.makerAssetAddress,    
+            takerAssetAddress: orderData.takerAssetAddress,    
+            makerAddress: walletAddress,
+            makerAmount: orderData.makerAmount,  
+            takerAmount: web3.utils.toWei(orderData.takerAmount, "ether" ),   
+            predicate: '0x',
+            permit: '0x',    
+            interaction: '0x',
+        });
+        console.log(limitOrder, '4')
+        
+        const limitOrderTypedData = limitOrderBuilder.buildLimitOrderTypedData(limitOrder);
+        console.log(limitOrderTypedData, '5')
+        const limitOrderSignature = await limitOrderBuilder.buildOrderSignature(walletAddress, limitOrderTypedData);
+        console.log(limitOrderSignature, '6')
+    }
+
 
     async getTokenById(tokenID){
         const Contract = await this._getInstance()

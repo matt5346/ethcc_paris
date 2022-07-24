@@ -7,7 +7,7 @@
     <div class="token__img" :style="computeTokenImgStyle(token.image)"></div>
     <div class="token__name" v-text="token.name"></div>
     <div class="token__buy btn" v-if="token.isForBuy && !token.premium" @click="mint">Mint</div>
-    <div class="token__buy btn inverse" v-else @click="orderWithMint">Buy and mint</div>
+    <div class="token__buy btn inverse" v-else-if="!token.id" @click="orderWithMint">Buy and mint</div>
     <LoaderElement v-if="isLoading" class="absolute with-bg">Minting...</LoaderElement>
   </div>
 </template>

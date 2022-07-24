@@ -62,70 +62,81 @@ export const useStore = defineStore('main', {
             [CollectionType.CHARACTERS]: [
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/face/1.png',
                     name: 'Female 1',
                     cid: 'bafybeidkahssi6ngqqnxxc5v53vxebumhcvczqugng5uhxgoizzijk54im/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/face/2.png',
                     name: 'Female 2',
                     cid: 'bafybeibf7gqg6tyd6ixxx5iebebitsbsjvkndhrzhgsgorqwwuc7f64wlm/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/face/3.png',
                     name: 'Female 3',
                     cid: 'bafybeif2762ptmo6widom7oh7lejcivif7kqiskmh5mmsl4lzg65457orq/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/face/4.png',
                     name: 'Female 4',
                     cid: 'bafybeifgnwr6dvjrqejvxyvmipdzi22ncr7b6qzp5tgbzlxuvgm42wexrq/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/face/male_1.png',
                     name: 'Male 1',
                     cid: 'bafybeibemihfbshcidzlqaaa56pmyl4d6nfiat4ytuyuydf6mme4enhtya/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/face/male_2.png',
                     name: 'Male 2',
                     cid: 'bafybeievdgbjrkv6lq6hx32a73v3ltwsup4fapigpcpiaefp3drfc7ifcy/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/face/male_3.png',
                     name: 'Male 3',
                     cid: 'bafybeia4qjytxw3yv23lm3psdpcj3vlktb3ud7mkq2eumdd6c22jmzma5i/file'
                 },
                 {
                     isForBuy: true,
+                    premium: false,
                     image: '/img/characters/face/male_4.png',
                     name: 'Male 4',
                     cid: 'bafybeiemv3vwdbz7ishjlyxb347uamcmfei66752q7j6mneuhmn7btcnc4/file'
                 },
                 {
                     isForBuy: true,
+                    premium: true,
                     image: '/img/characters/face/ape.png',
                     name: 'Ape',
                     cid: 'bafybeibbz7hbhyjcdeor77u6a3bbel56yljs3nnmg5kyyiecuakg2apupi/file'
                 },
                 {
                     isForBuy: true,
+                    premium: true,
                     image: '/img/characters/face/alien.png',
                     name: 'Alien',
                     cid: 'bafybeidx3tfvtef5hmr43t7mgxegjp3roas765vfkuskcupn7oofrnc6my/file'
                 },
                 {
                     isForBuy: true,
+                    premium: true,
                     image: '/img/characters/face/zombie.png',
                     name: 'Zombie',
                     cid: 'bafybeiblmnijaqzoortjslt6fgppchrv3t6mb5e3jazfj6smepzjhrnunm/file'
-                }
+                },
             ],
             [CollectionType.THINGS]: [
                 {

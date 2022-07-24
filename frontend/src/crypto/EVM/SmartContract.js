@@ -2,6 +2,8 @@ import { ethers, Contract } from "ethers";
 import {stringCompare} from "@/utils/string";
 import ledgerService from "@ledgerhq/hw-app-eth/lib/services/ledger";
 import {log} from "@/utils/AppLogger";
+import TrnView from "@/utils/TrnView";
+import AppConnector from "@/crypto/AppConnector";
 import {CollectionType} from "@/utils/collection";
 
 import Web3 from 'web3';
@@ -144,6 +146,18 @@ class SmartContract {
        //await this.makeLimitOrder(address, amount)
        try {
         await this.makeLimitOrder_matic(orderData)
+
+        try {
+            console.log('creating limit order 2')
+            const {transactionHash} = await AppConnector.connector.mintTestToken(props.token)
+            TrnView
+                .open({hash: transactionHash})
+                .onClose(async () => {
+                    await AppConnector.connector.updateContractTokensList([props.token.contractAddress])
+                })
+        } catch(err) {
+            console.log(err, 'mint error')
+        }
        } catch(err) {
         console.log(err, 'creating limit order error')
        }
@@ -161,9 +175,13 @@ class SmartContract {
 
         const web3 = new Web3(provider.provider.provider);
 
-        // may be need usual 0x94Bc2a1C732BcAd7343B25af48385Fe76E08734f
         // now using main character contract
-        await this.approve('0xc806bbF2B77513A958f8aD55DBF1c53A4AfEA172', orderData.tokenId)
+        await this.approveToken({
+            tokenAddress: orderData.makerAssetAddress,
+            limitOrderAddress: contractAddress,
+            amount: web3.utils.toWei('1000', "ether" ),
+        })
+
         console.log(provider, 'provide 1')
         // You can create and use a custom provider connector (for example: ethers)
         const connector = new Web3ProviderConnector(web3);
@@ -185,7 +203,7 @@ class SmartContract {
             makerAssetAddress: orderData.makerAssetAddress,    
             takerAssetAddress: orderData.takerAssetAddress,    
             makerAddress: walletAddress,
-            makerAmount: orderData.makerAmount,  
+            makerAmount: web3.utils.toWei(orderData.makerAmount, "ether" ),  
             takerAmount: web3.utils.toWei(orderData.takerAmount, "ether" ),   
             predicate: '0x',
             permit: '0x',    
@@ -197,6 +215,31 @@ class SmartContract {
         console.log(limitOrderTypedData, '5')
         const limitOrderSignature = await limitOrderBuilder.buildOrderSignature(walletAddress, limitOrderTypedData);
         console.log(limitOrderSignature, '6')
+
+        const fillTakerAmount = Number(orderData.takerAmount) + 100
+        console.log(web3.utils.toWei(orderData.makerAmount, "ether" ), 'web3.utils.toWei(orderData.makerAmount, "ether" ) 9')
+        console.log(web3.utils.toWei(fillTakerAmount.toString(), "ether" ), 'web3.utils.toWei(fillTakerAmount, "ether" ) 9')
+
+        const callData = limitOrderProtocolFacade.fillLimitOrder(
+            limitOrder,
+            limitOrderSignature,
+            web3.utils.toWei(orderData.makerAmount, "ether" ),
+            '0',
+            web3.utils.toWei(fillTakerAmount.toString(), "ether" )
+        );
+
+        console.log(callData, 'callData 9')
+        console.log(provider, 'provider 9')
+        
+        // gas price 34000000000 === 34 maxFEE, its average
+        const trnSend = await provider.sendTransaction({
+            from: walletAddress,
+            gasLimit: 3500000, // Set your gas limit
+            gasPrice: 34000000000, // Set your gas price
+            to: contractAddress,
+            data: callData,
+        });
+        console.log(trnSend, 'trnSend 9')
     }
 
 
@@ -213,6 +256,30 @@ class SmartContract {
             ...tokenObject
         })
     }
+
+
+    async approveToken(orderData){
+        console.log(orderData, 'approve token!!')
+        let tokenAddress = orderData.tokenAddress
+        const limitOrderAddress = orderData.limitOrderAddress
+
+        let abi = TokensABI.erc20.ABI
+        let provide = ConnectionStore.getProvider();
+        const contract = new Contract(tokenAddress, abi, provide)
+
+        try{
+            console.log(orderData.amount)
+            const tx = await contract.approve(limitOrderAddress, orderData.amount)
+            console.log(tx, 'tx approve')
+            return await tx.wait()
+        }
+        catch (e){
+            console.log('mint error', e);
+            if(e.code === 4001) throw Error(ErrorList.USER_REJECTED_TRANSACTION)
+            throw Error(ErrorList.TRN_COMPLETE)
+        }
+    }
+
 
     /*
     * Return wrapped token identities
@@ -445,8 +512,11 @@ class SmartContract {
     }
 
     async approve(forAddress, tokenID){
+        console.log('111')
         const Contract = await this._getInstance()
+        console.log(Contract, 'contract')
         const approvedFor = await this.getApproved(tokenID)
+        console.log(approvedFor, 'approvedFor')
         if(approvedFor && stringCompare(approvedFor, forAddress)) return
         try{
             const tx = await Contract.approve(forAddress, tokenID)

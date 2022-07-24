@@ -65,6 +65,7 @@
         <SendSection v-else-if="section === 'send'" :token="preview.token" @close="close"/>
         <ApproveSection v-else-if="section === 'approve'" :token="preview.token" @close="close"/>
         <InfoSection v-else :token="preview.token"/>
+        <PutForInchSale />
       </div>
     </div>
   </div>
@@ -78,6 +79,7 @@
   import InfoSection from '@/components/preview/Info'
   import SendSection from '@/components/preview/Send'
   import ApproveSection from '@/components/preview/Approve'
+  import PutForInchSale from '@/components/preview/PutForInchSale'
   import LoaderElement from '@/components/UI/Loader'
   import {computed, ref} from "vue";
   import Icons from "@/components/UI/icons";

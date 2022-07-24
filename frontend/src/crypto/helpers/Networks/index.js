@@ -41,14 +41,14 @@ const networks = {
         // @todo find right explorer
         marketplaceExplorer: (contractAddress, tokenID) => ``,
     },
-    // polygon_mainnet: {
-    //     name: "polygon_mainnet",
-    //     chainId: 137,
-    //     transactionExplorer: "https://polygonscan.com/tx/",
-    //     accountExplorer: "https://polygonscan.com/address/",
-    //     marketplaceExplorer: (contractAddress, tokenID) => `https://opensea.io/assets/matic/${contractAddress}/${tokenID}`,
-    //     gasLimit: 400000
-    // }
+    polygon_mainnet: {
+        name: "polygon_mainnet",
+        chainId: 137,
+        transactionExplorer: "https://polygonscan.com/tx/",
+        accountExplorer: "https://polygonscan.com/address/",
+        marketplaceExplorer: (contractAddress, tokenID) => `https://opensea.io/assets/matic/${contractAddress}/${tokenID}`,
+        gasLimit: 400000
+    }
 }
 
 const settings = {
@@ -115,12 +115,24 @@ const settings = {
         characterContract: '0x55181ea172ed9205252d559d782ba18488461303',
         // thingContract: '0xA95107620a198d7B141B32E42FF298f935A97585',
         thingContract: '0xd4B754464c4C0Ea996C468A7e2B7E41Cc9494E40',
-
         colorContract: '0x2F0689f3bCEF57BeD577310e1c4f1275BE15394a',
         achievements: '0x91b3Bcb5cb609CF307cb365124753a6Fb3bcC58A',
 
         whiteListContract: '0xdD3610C4c9638d44329c10E23c835754f36D862d',
     },
+    polygon_mainnet: {
+        api: 'https://api.rarible.org/v0.1',
+        blockchain: 'POLYGON',
+        // tokenAddress: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
+        // limitOrderAddress: '0x94Bc2a1C732BcAd7343B25af48385Fe76E08734f',
+
+        characterContract: '0xc806bbF2B77513A958f8aD55DBF1c53A4AfEA172',
+        thingContract: '0x4466901121916c376C2C9DD1A56d6E0a51A18b43',
+        colorContract: '0x021CbF1A5212AAD4B7AC39803A154BE624307613',
+        achievements: '0x69Dc9538bBA682ACf8dc1d0D6f333AC231FfA678',
+
+        whiteListContract: '0x949084f627840bF23CAB88252613D7553d7A774D',
+    }
 }
 
 export function getNameByChainID(chainID){

@@ -1,27 +1,30 @@
 <template>
-  <Sketch class="gallery">
-    <div class="block block_d2">
-      <ToggleElement v-model="isJSON">View in JSON</ToggleElement>
-      <div class="block block_auto-col">
-        <div class="btn" @click="openFindToken">Edit if not owner</div>
-        <router-link v-if="isAdmin" class="btn" :to="{name: 'Admin'}" exact-active-class="active">Admin</router-link>
+  <div>
+    <Sketch class="gallery">
+      <div class="block block_d2">
+        <ToggleElement v-model="isJSON">View in JSON</ToggleElement>
+        <div class="block block_auto-col">
+          <div class="btn" @click="openFindToken">Edit if not owner</div>
+          <router-link v-if="isAdmin" class="btn" :to="{name: 'Admin'}" exact-active-class="active">Admin</router-link>
+        </div>
       </div>
-    </div>
-    <LoaderElement class="collections" v-if="isCollectionsLoading">Loading...</LoaderElement>
-    <template v-else>
-      <ViewInJSON v-if="isJSON" :list="collections"/>
+      <LoaderElement class="collections" v-if="isCollectionsLoading">Loading...</LoaderElement>
       <template v-else>
-        <ContractElement
-          v-for="(collection, key) in collections"
-          :key="key"
-          :contract="collection"
-          :byAvailable="true"
-          @chooseToken="chooseToken"
-        />
+        <ViewInJSON v-if="isJSON" :list="collections"/>
+        <template v-else>
+          <ContractElement
+            v-for="(collection, key) in collections"
+            :key="key"
+            :contract="collection"
+            :byAvailable="true"
+            @chooseToken="chooseToken"
+          />
+        </template>
       </template>
-    </template>
-  </Sketch>
-  <PreviewToken/>
+    </Sketch>
+
+    <PreviewToken/>
+  </div>
 </template>
 
 <script setup>
@@ -61,6 +64,7 @@
     } = storeToRefs(store)
 
     const route = useRoute()
+
     const collections = computed(() => {
         return store.getFilteredCollections(CollectionType.getTypeByPageName(route.name))
     })

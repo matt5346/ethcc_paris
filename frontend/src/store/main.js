@@ -18,6 +18,7 @@ export const useStore = defineStore('main', {
             modifiers: [],      //  for view
             notOwner: false
         },
+        isInchOrderOpen: false,
         isManageContractsOpen: false,
         isFindTokenOpen: false,
         isDeployContractOpen: false,
@@ -28,6 +29,7 @@ export const useStore = defineStore('main', {
         networks: [
             {id: 1, name: 'Ethereum', key: 'ether', color: '#627EEA', available: true},
             {id: 2, name: 'Mumbai testnet', key: 'polygon', color: '#8247E5', available: true},
+            {id: 2, name: 'Matic mainnet', key: 'polygon', color: '#8247E5', available: true},
             {id: 3, name: 'Cronos', key: 'cronos', color: '#8247E5', available: true},
             {id: 4, name: 'Gnosis/sokol', key: 'gnosis', color: '#8247E5', available: true},
             {id: 4, name: 'NEON', key: 'neon', color: '#8247E5', available: true},
@@ -429,6 +431,10 @@ export const useStore = defineStore('main', {
         },
         changeManageContractView(value){
             this.isManageContractsOpen = value
+        },
+        changeInchOrderOpen(value){
+            console.log('changeInchOrderOpen')
+            this.isInchOrderOpen = value
         },
         changeFindTokenView(value){
             this.isFindTokenOpen = value

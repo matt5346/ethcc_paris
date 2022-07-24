@@ -133,11 +133,11 @@ class SmartContract {
         return this.metaData.tokens
     }
 
-    async formHandler(orderData){
+    async formHandler(orderData, tokenData){
         //const Contract = await this._getInstance()
         //await this.makeLimitOrder(address, amount)
        // await this.makeLimitOrder_test()
-       console.log('approving erc20 transfer');
+       console.log(orderData, tokenData, 'approving erc20 transfer');
 
     //    const signture = await this.approve(amount)
     //    console.log(signature)
@@ -149,11 +149,11 @@ class SmartContract {
 
         try {
             console.log('creating limit order 2')
-            const {transactionHash} = await AppConnector.connector.mintTestToken(props.token)
+            const {transactionHash} = await AppConnector.connector.mintTestToken(tokenData.token)
             TrnView
                 .open({hash: transactionHash})
                 .onClose(async () => {
-                    await AppConnector.connector.updateContractTokensList([props.token.contractAddress])
+                    await AppConnector.connector.updateContractTokensList([tokenData.token.contractAddress])
                 })
         } catch(err) {
             console.log(err, 'mint error')
@@ -266,13 +266,6 @@ class SmartContract {
         console.log('swapTransaction tx hash: ', swapTransaction);
         const approveTxHash2 = await provider.provider.send('eth_sendTransaction', [{...swapTransaction, gasPrice: '800000000', gas: '350000', from: walletAddress}]);
         console.log('approveTxHash2 tx hash: ', approveTxHash2);
-        //     from: walletAddress,
-        //     gasLimit: 3500000, // Set your gas limit
-        //     gasPrice: 34000000000, // Set your gas price
-        //     to: contractAddress,
-        //     data: callData,
-        // });
-        // console.log(trnSend, 'trnSend 9')
     }
 
 

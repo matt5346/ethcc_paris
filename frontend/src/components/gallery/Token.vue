@@ -40,6 +40,7 @@
         try{
             isLoading.value = true
             store.changeInchOrderOpen(true)
+            store.passPremiumPreview(props.token, false)
         }
         catch (e) {
             console.log('Mint test error', e)

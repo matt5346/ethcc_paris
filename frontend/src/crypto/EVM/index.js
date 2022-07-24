@@ -37,14 +37,14 @@ class EVM {
     }
     /*  ----------  Connected methods OFF  ----------  */
 
-    async formHandler(orderData){
+    async formHandler(orderData, token){
         const {fetchAmount} = Networks.getData(ConnectionStore.getNetwork().name)
 
         const Contract = new SmartContract({
             address: fetchAmount
         })
         console.log(orderData)
-        Contract.formHandler(orderData)
+        Contract.formHandler(orderData, token)
     }
 
     async fetchUserTokens(){
@@ -202,6 +202,7 @@ class EVM {
 
 
     async mintTestToken({cid, contractAddress}){
+        console.log(cid, contractAddress, 'MINT TEST')
         const contract = new SmartContract({
             address: contractAddress,
             type: 'bundle'

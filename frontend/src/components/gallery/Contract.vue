@@ -6,6 +6,7 @@
       <template v-else>
         <TokenElement
           v-for="token in tokensView"
+          :key="token.id"
           :token="token"
           :isSelected="selectedTokens.includes(token.identity)"
           @choose="chooseToken(token)"

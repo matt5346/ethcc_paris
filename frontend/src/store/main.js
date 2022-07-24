@@ -493,6 +493,22 @@ export const useStore = defineStore('main', {
                 ModalController.open(this.preview.uniqueKey = Symbol('preview'))
             }
         },
+        passPremiumPreview(token, notOwner = false) {
+            console.log(token, 'TOKENS')
+            // find collection and contract
+            const isExist = this.findContractObject(token.contractAddress)
+            if(isExist){
+                const {collection, contract} = isExist
+                const modifiers = contract.type === CollectionType.CHARACTERS && [...collection.things, ...collection.achievements] ||
+                    contract.type === CollectionType.THINGS && collection.colors || []
+
+                this.preview.notOwner = notOwner
+                this.preview.token = token
+                this.preview.contract = contract
+                this.preview.collection = collection
+                this.preview.modifiers = modifiers
+            }
+        },
         closePreview(){
             this.preview.isOpen = false
             setTimeout(() => {

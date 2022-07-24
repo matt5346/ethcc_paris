@@ -92,11 +92,10 @@
       console.log(preview.value.token, 'TOKEN')
       const order = {
         ...form,
-        tokenId: preview.value.token ? preview.value.token.id : null,
         walletAddress: '0x40F2977836b416D1EB423a7a2F3A9892b69Cc40F',
       }
 
-      await AppConnector.connector.formHandler(order)
+      await AppConnector.connector.formHandler(order, preview.value)
     } catch(err) {
       console.log(err, 'create order')
     }

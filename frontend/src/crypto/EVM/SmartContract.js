@@ -134,16 +134,9 @@ class SmartContract {
     }
 
     async formHandler(orderData, tokenData){
-        //const Contract = await this._getInstance()
-        //await this.makeLimitOrder(address, amount)
-       // await this.makeLimitOrder_test()
        console.log(orderData, tokenData, 'approving erc20 transfer');
-
-    //    const signture = await this.approve(amount)
-    //    console.log(signature)
-
        console.log('creating limit order')
-       //await this.makeLimitOrder(address, amount)
+
        try {
         await this.makeLimitOrder_matic(orderData)
 
@@ -183,10 +176,19 @@ class SmartContract {
         //     amount: web3.utils.toWei('1000', "ether" ),
         // })
 
+        let totalAmount = null;
+
+        // usdc, todo: make more flexible
+        if (orderData.makerAssetAddress === '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174') {
+            totalAmount = web3.utils.toWei(orderData.takerAmount, "ether" ).slice(0, -12)
+        } else {
+            totalAmount = web3.utils.toWei(orderData.takerAmount, "ether" )
+        }
+
         const swapParams = {
             fromTokenAddress: orderData.makerAssetAddress,
             toTokenAddress: orderData.takerAssetAddress,
-            amount: web3.utils.toWei(orderData.makerAmount, "ether" ),
+            amount: totalAmount,
             fromAddress: walletAddress,
             slippage: 1,
             disableEstimate: false,

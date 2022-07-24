@@ -15,7 +15,7 @@
           <div class="field required">
             <div class="field__name">Choose your asset</div>
 
-            <select class="input default" v-model="form.takerAssetAddress">
+            <select class="input default" v-model="form.makerAssetAddress">
               <option value="" disabled selected>Choose asset type</option>
               <option v-for="item in assetsTypes" :key="item.id" :value="item.id" v-text="item.token"></option>
             </select>
@@ -61,9 +61,9 @@
 
   // todo make more
   const form = reactive({
-      takerAssetAddress: '',
+      takerAssetAddress: '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',
       takerAmount: '1',
-      makerAssetAddress: '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',
+      makerAssetAddress: '',
       makerAmount: '1',
   })
 

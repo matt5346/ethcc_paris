@@ -100,17 +100,20 @@ import {
         return
       }
 
-      let abi = TokensABI.erc20.ABI
-      let provider = ConnectionStore.getProvider();
-      console.log(abi, 'provider')
+      const abi = TokensABI.erc20.ABI
+      const provider = ConnectionStore.getProvider();
+
       const web3 = new Web3(provider.provider.provider);
       const contract = new web3.eth.Contract(abi, form.makerAssetAddress)
       let balance = await contract.methods.balanceOf(connection.value.userIdentity).call()
+
       const decimals = await contract.methods.decimals().call()
       const totalAmount = balance.slice(0, -decimals)
       balance = balance.toString()
       balance = balance.substring(0, balance.length - decimals) + "." + balance.substring(balance.length - decimals, balance.length);
     
+      form.takerAmount = preview.value.token.price
+
       if (balance < preview.value.token.price) {
         alert('Sorry, you don"t have enough funds')
         return
@@ -122,6 +125,7 @@ import {
       }
 
       await AppConnector.connector.formHandler(order, preview.value)
+      close()
     } catch(err) {
       console.log(err, 'create order')
     }
